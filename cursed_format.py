@@ -481,7 +481,7 @@ if __name__ == "__main__":
         _log(f"[encode-gz] wrote {args.output}")
 
     elif args.mode == "encode-json":
-        with open(args.json_file, "r", encoding="utf-8") as f:
+        with open(args.json_file, "r", encoding="utf-8-sig") as f:
             obj = json.load(f)
 
         if args.no_compress:
