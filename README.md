@@ -258,6 +258,47 @@ python cursed_format.py decode-json .\test_data\5MB.json.bf
 
 ---
 
+# 📦 Direct Gzip Compression (No Brainfuck)
+
+For comparison, you can compress JSON files directly with gzip without Brainfuck encoding:
+
+## Compress 64KB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\64KB.json', 'rb'), gzip.open('.\test_data\64KB.json.gz', 'wb'))"
+```
+
+## Compress 128KB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\128KB.json', 'rb'), gzip.open('.\test_data\128KB.json.gz', 'wb'))"
+```
+
+## Compress 256KB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\256KB.json', 'rb'), gzip.open('.\test_data\256KB.json.gz', 'wb'))"
+```
+
+## Compress 512KB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\512KB.json', 'rb'), gzip.open('.\test_data\512KB.json.gz', 'wb'))"
+```
+
+## Compress 1MB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\1MB.json', 'rb'), gzip.open('.\test_data\1MB.json.gz', 'wb'))"
+```
+
+## Compress 5MB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open('.\test_data\5MB.json', 'rb'), gzip.open('.\test_data\5MB.json.gz', 'wb'))"
+```
+
+## Decompress all gzipped files
+```bash
+python -c "import gzip, shutil, glob; [shutil.copyfileobj(gzip.open(f, 'rb'), open(f[:-3] + '.decompressed.json', 'wb')) for f in glob.glob('.\test_data\*.json.gz')]"
+```
+
+---
+
 # 🎯 Advanced Options
 
 ## Encode with custom output file
