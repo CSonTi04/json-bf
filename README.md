@@ -100,6 +100,18 @@ python cursed_format.py decode-json .\test_data\64KB.json.bf
 
 # 📂 Encoding Test Files (Compressed)
 
+## Encode 1KB JSON
+```bash
+python cursed_format.py encode-json .\test_data\1KB.json
+# Creates: .\test_data\1KB.json.bf.gz
+```
+
+## Encode 1KB-min JSON
+```bash
+python cursed_format.py encode-json .\test_data\1KB-min.json
+# Creates: .\test_data\1KB-min.json.bf.gz
+```
+
 ## Encode 64KB JSON
 ```bash
 python cursed_format.py encode-json .\test_data\64KB.json
@@ -139,6 +151,18 @@ python cursed_format.py encode-json .\test_data\5MB.json
 ---
 
 # 📂 Encoding Test Files (Uncompressed)
+
+## Encode 1KB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\1KB.json --no-compress
+# Creates: .\test_data\1KB.json.bf
+```
+
+## Encode 1KB-min JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\1KB-min.json --no-compress
+# Creates: .\test_data\1KB-min.json.bf
+```
 
 ## Encode 64KB JSON (no compression)
 ```bash
@@ -180,6 +204,18 @@ python cursed_format.py encode-json .\test_data\5MB.json --no-compress
 
 # 📂 Decoding Compressed Files (.bf.gz)
 
+## Decode 1KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1KB.json.bf.gz
+# Creates: .\test_data\1KB.json.bf.gz.json
+```
+
+## Decode 1KB-min → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1KB-min.json.bf.gz
+# Creates: .\test_data\1KB-min.json.bf.gz.json
+```
+
 ## Decode 64KB → JSON
 ```bash
 python cursed_format.py decode-json .\test_data\64KB.json.bf.gz
@@ -219,6 +255,18 @@ python cursed_format.py decode-json .\test_data\5MB.json.bf.gz
 ---
 
 # 📂 Decoding Uncompressed Files (.bf)
+
+## Decode 1KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1KB.json.bf
+# Creates: .\test_data\1KB.json.bf.json
+```
+
+## Decode 1KB-min → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1KB-min.json.bf
+# Creates: .\test_data\1KB-min.json.bf.json
+```
 
 ## Decode 64KB → JSON
 ```bash
@@ -261,6 +309,16 @@ python cursed_format.py decode-json .\test_data\5MB.json.bf
 # 📦 Direct Gzip Compression (No Brainfuck)
 
 For comparison, you can compress JSON files directly with gzip without Brainfuck encoding:
+
+## Compress 1KB JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open(r'.\test_data\1KB.json', 'rb'), gzip.open(r'.\test_data\1KB.json.gz', 'wb'))"
+```
+
+## Compress 1KB-min JSON
+```bash
+python -c "import gzip, shutil; shutil.copyfileobj(open(r'.\test_data\1KB-min.json', 'rb'), gzip.open(r'.\test_data\1KB-min.json.gz', 'wb'))"
+```
 
 ## Compress 64KB JSON
 ```bash
@@ -450,7 +508,7 @@ except ValueError as e:
 
 | Strategy         | Speed   | Output Size | Notes                 |
 |------------------|---------|-------------|-----------------------|
-| stock            | slow    | big         | naive                 |
+| stock            | slow    | big         | naïve                 |
 | cached           | fast    | small       | reuses cells          |
 | cached_heuristic | fastest | smallest    | caches frequent bytes |
 
