@@ -69,7 +69,36 @@ python cursed_format.py encode-gz "Hello World" out.bf.gz
 
 ---
 
-# 📂 Encoding Test Files
+# 📂 Test Files Quick Reference
+
+## Format Comparison
+
+| Format       | Extension | Compression | Command Flag    | File Size |
+|--------------|-----------|-------------|-----------------|-----------|
+| Compressed   | `.bf.gz`  | Yes (gzip)  | *(default)*     | Smallest  |
+| Uncompressed | `.bf`     | No          | `--no-compress` | Larger    |
+
+## Workflow Overview
+
+**Compressed workflow (default):**
+```bash
+# Encode: JSON → .bf.gz
+python cursed_format.py encode-json .\test_data\64KB.json
+# Decode: .bf.gz → JSON
+python cursed_format.py decode-json .\test_data\64KB.json.bf.gz
+```
+
+**Uncompressed workflow:**
+```bash
+# Encode: JSON → .bf (plain text Brainfuck)
+python cursed_format.py encode-json .\test_data\64KB.json --no-compress
+# Decode: .bf → JSON
+python cursed_format.py decode-json .\test_data\64KB.json.bf
+```
+
+---
+
+# 📂 Encoding Test Files (Compressed)
 
 ## Encode 64KB JSON
 ```bash
@@ -109,7 +138,47 @@ python cursed_format.py encode-json .\test_data\5MB.json
 
 ---
 
-# 📂 Decoding Encoded Files
+# 📂 Encoding Test Files (Uncompressed)
+
+## Encode 64KB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\64KB.json --no-compress
+# Creates: .\test_data\64KB.json.bf
+```
+
+## Encode 128KB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\128KB.json --no-compress
+# Creates: .\test_data\128KB.json.bf
+```
+
+## Encode 256KB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\256KB.json --no-compress
+# Creates: .\test_data\256KB.json.bf
+```
+
+## Encode 512KB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\512KB.json --no-compress
+# Creates: .\test_data\512KB.json.bf
+```
+
+## Encode 1MB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\1MB.json --no-compress
+# Creates: .\test_data\1MB.json.bf
+```
+
+## Encode 5MB JSON (no compression)
+```bash
+python cursed_format.py encode-json .\test_data\5MB.json --no-compress
+# Creates: .\test_data\5MB.json.bf
+```
+
+---
+
+# 📂 Decoding Compressed Files (.bf.gz)
 
 ## Decode 64KB → JSON
 ```bash
@@ -145,6 +214,46 @@ python cursed_format.py decode-json .\test_data\1MB.json.bf.gz
 ```bash
 python cursed_format.py decode-json .\test_data\5MB.json.bf.gz
 # Creates: .\test_data\5MB.json.bf.gz.json
+```
+
+---
+
+# 📂 Decoding Uncompressed Files (.bf)
+
+## Decode 64KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\64KB.json.bf
+# Creates: .\test_data\64KB.json.bf.json
+```
+
+## Decode 128KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\128KB.json.bf
+# Creates: .\test_data\128KB.json.bf.json
+```
+
+## Decode 256KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\256KB.json.bf
+# Creates: .\test_data\256KB.json.bf.json
+```
+
+## Decode 512KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\512KB.json.bf
+# Creates: .\test_data\512KB.json.bf.json
+```
+
+## Decode 1MB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1MB.json.bf
+# Creates: .\test_data\1MB.json.bf.json
+```
+
+## Decode 5MB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\5MB.json.bf
+# Creates: .\test_data\5MB.json.bf.json
 ```
 
 ---
