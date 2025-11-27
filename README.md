@@ -30,16 +30,16 @@ Yes, it’s cursed. 😈
 
 # 🚀 Installation
 
-```
+```bash
 git clone https://github.com/CSonTi04/json-bf
-cd bfk1
+cd json-bf
 ```
 
 Requires **Python ≥ 3.9**.
 
 To run tests:
 
-```
+```bash
 pip install pytest
 pytest -q
 ```
@@ -50,8 +50,8 @@ pytest -q
 
 ## Encode text → Brainfuck
 
-```
-python3 cursed_format.py encode "Hello"
+```bash
+python cursed_format.py encode "Hello"
 ```
 
 Output:
@@ -63,33 +63,141 @@ Output:
 ```
 
 ## Encode text → gzip
-```
-python3 cursed_format.py encode-gz "Hello World" out.bf.gz
-```
-
-## Encode JSON
-```
-python3 cursed_format.py encode-json data.json
+```bash
+python cursed_format.py encode-gz "Hello World" out.bf.gz
 ```
 
-Without gzip:
-```
-python3 cursed_format.py encode-json data.json --no-compress
+---
+
+# 📂 Encoding Test Files
+
+## Encode 64KB JSON
+```bash
+python cursed_format.py encode-json .\test_data\64KB.json
+# Creates: .\test_data\64KB.json.bf.gz
 ```
 
-Without HMAC:
-```
-python3 cursed_format.py encode-json data.json --no-mac
-```
-
-## Decode JSON
-```
-python3 cursed_format.py decode-json out.bf.gz
+## Encode 128KB JSON
+```bash
+python cursed_format.py encode-json .\test_data\128KB.json
+# Creates: .\test_data\128KB.json.bf.gz
 ```
 
-## Decode → Python object
+## Encode 256KB JSON
+```bash
+python cursed_format.py encode-json .\test_data\256KB.json
+# Creates: .\test_data\256KB.json.bf.gz
 ```
-python3 cursed_format.py decode out.bf.gz
+
+## Encode 512KB JSON
+```bash
+python cursed_format.py encode-json .\test_data\512KB.json
+# Creates: .\test_data\512KB.json.bf.gz
+```
+
+## Encode 1MB JSON
+```bash
+python cursed_format.py encode-json .\test_data\1MB.json
+# Creates: .\test_data\1MB.json.bf.gz
+```
+
+## Encode 5MB JSON
+```bash
+python cursed_format.py encode-json .\test_data\5MB.json
+# Creates: .\test_data\5MB.json.bf.gz
+```
+
+---
+
+# 📂 Decoding Encoded Files
+
+## Decode 64KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\64KB.json.bf.gz
+# Creates: .\test_data\64KB.json.bf.gz.json
+```
+
+## Decode 128KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\128KB.json.bf.gz
+# Creates: .\test_data\128KB.json.bf.gz.json
+```
+
+## Decode 256KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\256KB.json.bf.gz
+# Creates: .\test_data\256KB.json.bf.gz.json
+```
+
+## Decode 512KB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\512KB.json.bf.gz
+# Creates: .\test_data\512KB.json.bf.gz.json
+```
+
+## Decode 1MB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\1MB.json.bf.gz
+# Creates: .\test_data\1MB.json.bf.gz.json
+```
+
+## Decode 5MB → JSON
+```bash
+python cursed_format.py decode-json .\test_data\5MB.json.bf.gz
+# Creates: .\test_data\5MB.json.bf.gz.json
+```
+
+---
+
+# 🎯 Advanced Options
+
+## Encode with custom output file
+```bash
+python cursed_format.py encode-json .\test_data\64KB.json --output custom.bf.gz
+```
+
+## Encode without compression (plain text Brainfuck)
+```bash
+python cursed_format.py encode-json .\test_data\64KB.json --no-compress
+# Creates: .\test_data\64KB.json.bf (uncompressed text)
+```
+
+## Encode without HMAC protection
+```bash
+python cursed_format.py encode-json .\test_data\64KB.json --no-mac
+```
+
+## Encode with different strategies
+```bash
+# Stock strategy (naive)
+python cursed_format.py encode-json .\test_data\64KB.json --strategy stock
+
+# Cached strategy (reuses cells)
+python cursed_format.py encode-json .\test_data\64KB.json --strategy cached
+
+# Cached heuristic (fastest, smallest)
+python cursed_format.py encode-json .\test_data\64KB.json --strategy cached_heuristic
+```
+
+## Decode with pretty printing
+```bash
+python cursed_format.py decode-json .\test_data\64KB.json.bf.gz --pretty
+```
+
+## Decode with custom output file
+```bash
+python cursed_format.py decode-json .\test_data\64KB.json.bf.gz --output decoded.json
+```
+
+## Decode to stdout (print as Python object)
+```bash
+python cursed_format.py decode .\test_data\64KB.json.bf.gz
+```
+
+## Verbose mode (see what's happening)
+```bash
+python cursed_format.py --verbose encode-json .\test_data\64KB.json
+python cursed_format.py --verbose decode-json .\test_data\64KB.json.bf.gz
 ```
 
 ---
@@ -121,39 +229,80 @@ We run the BF interpreter with safety guards and parse the output as JSON.
 
 ---
 
-# 🧪 Python Examples
+# 🧪 Python API Examples
 
-```
+## Basic usage
+```python
 import cursed_format as bfk
+
+# Encode a Python object
 obj = {"hello": "world", "n": 123}
 enc = bfk.encode_object(obj, compress=True, strategy="cached")
+
+# Decode it back
 dec = bfk.decode_object(enc)
-print(dec)
+print(dec)  # {"hello": "world", "n": 123}
 ```
 
-Disable HMAC:
-```
+## Disable HMAC
+```python
+import cursed_format as bfk
+
 enc = bfk.encode_object({"msg": "no mac"}, compress=True, use_hmac=False)
 print(bfk.decode_object(enc))
 ```
 
-Tamper detection demo:
+## Encode from test files
+```python
+import json
+import cursed_format as bfk
+
+# Load and encode test file
+with open("test_data/64KB.json", "r") as f:
+    data = json.load(f)
+
+# Encode with cached_heuristic strategy
+encoded = bfk.encode_object(data, compress=True, strategy="cached_heuristic")
+
+# Save to file
+with open("test_data/64KB.json.bf.gz", "wb") as f:
+    f.write(encoded)
+
+# Decode back
+with open("test_data/64KB.json.bf.gz", "rb") as f:
+    decoded = bfk.decode_object(f.read())
+
+print(decoded == data)  # True
 ```
+
+## Tamper detection demo
+```python
+import gzip
+import cursed_format as bfk
+
+obj = {"secure": "data"}
+enc = bfk.encode_object(obj, compress=True, use_hmac=True)
+
+# Tamper with the data
 text = gzip.decompress(enc).decode("utf-8")
 tampered = text.replace(".", "+", 1)
 enc2 = gzip.compress(tampered.encode())
-bfk.decode_object(enc2)  # raises ValueError
+
+try:
+    bfk.decode_object(enc2)
+except ValueError as e:
+    print(f"Tamper detected: {e}")
 ```
 
 ---
 
 # 🔐 Strategy Comparison
 
-| Strategy | Speed | Output Size | Notes |
-|---------|-------|-------------|-------|
-| stock | slow | big | naive |
-| cached | fast | small | reuses cells |
-| cached_heuristic | fastest | smallest | caches frequent bytes |
+| Strategy         | Speed   | Output Size | Notes                 |
+|------------------|---------|-------------|-----------------------|
+| stock            | slow    | big         | naive                 |
+| cached           | fast    | small       | reuses cells          |
+| cached_heuristic | fastest | smallest    | caches frequent bytes |
 
 ---
 
