@@ -31,7 +31,7 @@ Yes, it’s cursed. 😈
 # 🚀 Installation
 
 ```
-git clone https://github.com/YOUR_REPO/bfk1.git
+git clone https://github.com/CSonTi04/json-bf
 cd bfk1
 ```
 
